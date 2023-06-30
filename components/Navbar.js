@@ -87,6 +87,7 @@ export default function Navbar() {
                     list-style: none;
                     margin-left: 0;
                     padding-left: 0;
+                    flex-wrap: wrap;
                 }
                 li {
                     margin-right: 1rem;
