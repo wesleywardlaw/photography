@@ -8,7 +8,7 @@ const handler = nextConnect();
 //     res.json({ user: req.user });
 // });
 
-handler.get((req, res) => {
+handler.post((req, res) => {
     res.status(200).json({ hello: 'hi' });
 });
 
