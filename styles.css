@@ -95,6 +95,9 @@ input::file-selector-button {
 
 .delete {
   color: red;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
   @media (max-width: 480px) {
