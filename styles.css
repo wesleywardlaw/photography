@@ -99,6 +99,6 @@ input::file-selector-button {
 
   @media (max-width: 480px) {
     .delete {
-        color: red; 
+        color: blue; 
     }
 }

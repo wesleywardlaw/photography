@@ -104,7 +104,6 @@ const deleteButtonStyle = {
     right: '10px',
     background: 'none',
     border: 'none',
-    color: 'red',
     fontSize: '18px',
     cursor: 'pointer',
 };

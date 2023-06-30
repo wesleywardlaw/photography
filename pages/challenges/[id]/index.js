@@ -247,7 +247,6 @@ const ChallengeDetails = () => {
                                         right: '5px',
                                         background: 'none',
                                         border: 'none',
-                                        color: 'red',
                                         fontSize: '18px',
                                         cursor: 'pointer',
                                     }}
