@@ -53,6 +53,7 @@ input {
   justify-content: flex-end;
   align-items: center;
   justify-content: space-between;
+  color:black;
 }
 .submit > button {
   padding: 0.5rem 1rem;
