@@ -190,7 +190,7 @@ const ChallengeDetails = () => {
                 >
                     <img
                         style={{
-                            maxWidth: '500px',
+                            maxWidth: '80%',
                             maxHeight: '500px',
                             width: 'auto',
                             height: 'auto',
