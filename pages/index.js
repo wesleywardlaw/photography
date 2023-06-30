@@ -69,6 +69,7 @@ const ChallengesList = () => {
                     <div style={challengeBoxStyle} id={challenge._id}>
                         {user.role === 'admin' && (
                             <button
+                                className="delete"
                                 style={deleteButtonStyle}
                                 onClick={(e) =>
                                     handleDeleteChallenge(e, challenge._id)

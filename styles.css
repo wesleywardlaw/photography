@@ -92,3 +92,13 @@ input::file-selector-button {
 .margin-top-50px {
   margin-top: 50px;
 }
+
+.delete {
+  color: red;
+}
+
+  @media (max-width: 480px) {
+    .delete {
+        color: red; 
+    }
+}

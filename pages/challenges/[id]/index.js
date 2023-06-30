@@ -240,6 +240,7 @@ const ChallengeDetails = () => {
                             </p>
                             {user?.role === 'admin' && (
                                 <button
+                                    className="delete"
                                     style={{
                                         position: 'absolute',
                                         top: '5px',
@@ -276,13 +277,13 @@ const ChallengeDetails = () => {
                     <CommentForm onSubmit={onSubmit} identifier={photo._id} />
                     {user?.role === 'admin' && (
                         <button
+                            className="delete"
                             style={{
                                 position: 'absolute',
                                 top: '10px',
                                 right: '10px',
                                 background: 'none',
                                 border: 'none',
-                                color: 'red',
                                 fontSize: '18px',
                                 cursor: 'pointer',
                             }}
