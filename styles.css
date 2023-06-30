@@ -11,9 +11,14 @@ body {
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 .container {
-  max-width: 42rem;
+  max-width: 80rem;
   margin: 0 auto;
-  padding: 2rem 1.25rem;
+  padding: .5rem .5rem;
+}
+
+img {
+  display: block;
+  margin: 0 auto;
 }
 h1 {
   text-align: center;
@@ -24,6 +29,10 @@ h1 {
   padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.form-container.more-width {
+  max-width: 50rem;
 }
 form,
 label {
@@ -62,4 +71,20 @@ input {
   color: brown;
   margin: 0.5rem 0;
   text-align: center;
+}
+
+p {
+  text-align: center;
+}
+
+input::file-selector-button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.margin-top-50px {
+  margin-top: 50px;
 }

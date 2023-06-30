@@ -1,83 +1,124 @@
-import { useUser, fetcher } from '../lib/hooks'
-import useSWR from 'swr'
+import { useQuery, useQueryClient, useMutation } from 'react-query';
+import { useUser } from '../lib/hooks';
+import Link from 'next/link';
+import React, { useEffect } from 'react';
+import Router from 'next/router';
 
-function UserList() {
-  const { data: { users } = {} } = useSWR('/api/users', fetcher)
-  return (
-    <>
-      <h2>All users</h2>
-      {!!users?.length && (
-        <ul>
-          {users.map((user) => (
-            <li key={user.username}>
-              <pre>{JSON.stringify(user, null, 2)}</pre>
-            </li>
-          ))}
+const ChallengesList = () => {
+    const queryClient = useQueryClient();
 
-          <style jsx>{`
-            pre {
-              white-space: pre-wrap;
-              word-wrap: break-word;
-            }
-          `}</style>
-        </ul>
-      )}
-    </>
-  )
-}
-
-export default function HomePage() {
-  const [user] = useUser()
-  return (
-    <>
-      <h1>
-        <a href="http://www.passportjs.org/">Passport.js</a> +{' '}
-        <a href="https://github.com/hoangvvo/next-connect">next-connect</a>{' '}
-        Example
-      </h1>
-      <h2>Steps to test the example:</h2>
-      <h3>Sign up</h3>
-      <ol>
-        <li>Click Sign up and enter a username and password.</li>
-        <li>You will be logged in and redirected home.</li>
-        <li>Click Logout. You will be redirected home.</li>
-        <li>
-          Try sign up again with the same username, you will see an error.
-        </li>
-      </ol>
-      <h3>Sign in</h3>
-      <ol>
-        <li>Click Login and login again using the same credential.</li>
-        <li>You will see an error if you use incorrect credential.</li>
-        <li>Otherwise, you will be authenticated and redirected home.</li>
-      </ol>
-      <h3>Edit profile</h3>
-      <ol>
-        <li>Click Profile</li>
-        <li>Enter a new name and click Update profile.</li>
-        <li>Notice how the name in Your profile has changed.</li>
-        <li>Click Delete profile</li>
-        <li>
-          The user is removed and is no longer shown in All users section in
-          Home
-        </li>
-      </ol>
-      {user && (
-        <>
-          <p>Currently logged in as:</p>
-          <pre>{JSON.stringify(user, null, 2)}</pre>
-        </>
-      )}
-      <UserList />
-      <style jsx>{`
-        li {
-          margin-bottom: 0.5rem;
+    const deleteChallengeMutation = useMutation(
+        (id) => {
+            return fetch(`/api/challenges/${id}`, {
+                method: 'DELETE',
+            });
+        },
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries('allchallenges');
+            },
         }
-        pre {
-          white-space: pre-wrap;
-          word-wrap: break-word;
+    );
+
+    const [user, { loading }] = useUser();
+    useEffect(() => {
+        if (!user && !loading) {
+            Router.replace('/login');
         }
-      `}</style>
-    </>
-  )
-}
+    }, [user, loading]);
+
+    const {
+        data: challenges,
+        isLoading,
+        isError,
+    } = useQuery(
+        'allchallenges',
+        async () => {
+            const response = await fetch('/api/challenges');
+            const data = await response.json();
+            return data;
+        },
+        { enabled: user?.role !== undefined }
+    );
+
+    const handleDeleteChallenge = (event, id) => {
+        event.stopPropagation();
+        deleteChallengeMutation.mutate(id);
+    };
+
+    if (loading || !user) {
+        return <div>Loading...</div>;
+    }
+
+    if (isLoading || !challenges) {
+        return <p>Loading challenges...</p>;
+    }
+
+    if (isError) {
+        return <p>Error fetching challenges</p>;
+    }
+
+    return (
+        <div>
+            {challenges.map((challenge) => (
+                <Link
+                    href={`/challenges/${challenge._id}`}
+                    legacyBehavior
+                    key={challenge._id}
+                >
+                    <div style={challengeBoxStyle} id={challenge._id}>
+                        {user.role === 'admin' && (
+                            <button
+                                style={deleteButtonStyle}
+                                onClick={(e) =>
+                                    handleDeleteChallenge(e, challenge._id)
+                                }
+                            >
+                                &#10006;
+                            </button>
+                        )}
+                        <h2 style={challengeTitleStyle}>{challenge.title}</h2>
+                        <p style={challengeDescriptionStyle}>
+                            {challenge.description}
+                        </p>
+                    </div>
+                </Link>
+            ))}
+        </div>
+    );
+};
+
+const challengeBoxStyle = {
+    backgroundColor: '#f5f5f5',
+    padding: '20px',
+    marginBottom: '20px',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    position: 'relative',
+};
+
+const deleteButtonStyle = {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    background: 'none',
+    border: 'none',
+    color: 'red',
+    fontSize: '18px',
+    cursor: 'pointer',
+};
+
+const challengeTitleStyle = {
+    textAlign: 'center',
+    fontSize: '18px',
+    fontWeight: 'bold',
+    marginBottom: '10px',
+};
+
+const challengeDescriptionStyle = {
+    textAlign: 'center',
+    fontSize: '14px',
+    marginBottom: '10px',
+};
+
+export default ChallengesList;
