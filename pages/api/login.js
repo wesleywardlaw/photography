@@ -4,12 +4,8 @@ import passport from '../../lib/passport';
 
 const handler = nextConnect();
 
-// handler.use(auth).post(passport.authenticate('local'), (req, res) => {
-//     res.json({ user: req.user });
-// });
-
-handler.post((req, res) => {
-    res.status(200).json({ hello: 'hi' });
+handler.use(auth).post(passport.authenticate('local'), (req, res) => {
+    res.json({ user: req.user });
 });
 
 export default handler;
