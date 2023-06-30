@@ -20,7 +20,8 @@ handler
             res.status(401).json({ message: 'unauthenticated' });
         }
     })
-    .post((req, res) => {
+    .post(async (req, res) => {
+        await dbConnect();
         const { username, password, name } = req.body;
         createUser(req, res, { username, password, name });
         res.status(200).json({ success: true, message: 'created new user' });
