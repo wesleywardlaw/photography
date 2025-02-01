@@ -18,6 +18,7 @@ const auth = nextConnect()
     )
     .use((req, res, next) => {
         console.log('Session ID:', req);
+        next();
       })
     .use(passport.initialize())
     .use(passport.session());
