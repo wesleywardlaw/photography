@@ -36,7 +36,7 @@ const ChallengesList = () => {
         async () => {
             const response = await fetch('/api/challenges');
             const data = await response.json();
-            return data;
+            return Array.isArray(data) ? data : [];
         },
         { enabled: user?.role !== undefined }
     );
