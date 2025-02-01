@@ -19,7 +19,7 @@ const auth = nextConnect()
     .use((req, res, next) => {
         console.log('Session ID:', req.sessionID);
         console.log('Session expires:', req.session.cookie.expires);
-        next();
+        // next();
       })
     .use(passport.initialize())
     .use(passport.session());
