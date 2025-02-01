@@ -8,7 +8,7 @@ const auth = nextConnect()
             name: 'sess',
             secret: process.env.TOKEN_SECRET,
             cookie: {
-                maxAge: 30*1000,
+                maxAge: 60 * 60 * 8,
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 path: '/',
@@ -16,10 +16,6 @@ const auth = nextConnect()
             },
         })
     )
-    .use((req, res, next) => {
-        console.log('Session ID:', req);
-        next();
-      })
     .use(passport.initialize())
     .use(passport.session());
 
