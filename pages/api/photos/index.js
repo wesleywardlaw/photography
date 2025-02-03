@@ -41,7 +41,7 @@ handler.post(async (req, res) => {
 
     const filename = req.file.originalname.replace(/[^\w.-]/g, '');
     const params = {
-        Bucket: 'photography-4h',
+        Bucket: process.env.BUCKET_NAME,
         Key: `${filename}`,
         Body: req.file.buffer,
     };
